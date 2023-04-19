@@ -1,6 +1,9 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import DayButton from "./DayButton";
+
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",];
 
 function Calendar() {
 
@@ -15,13 +18,18 @@ function Calendar() {
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
 
 
-
     for (let i = 1; i <= daysInMonth; i++) {
-        days.push(<div className="col">
-            <div className="row">
-                <button className="btn btn-secondary btn-lg">{i}</button>
+        days.push(
+            <div className="col w-75">
+                <div className="row">
+                    <DayButton
+                        color="secondary"
+                        text={i}
+                        onClick={() => console.log(`Clicked on day ${i}`)}
+                    />
+                </div>
             </div>
-        </div>);
+        );
     }
 
     const blanks = [];
@@ -61,13 +69,12 @@ function Calendar() {
         }
     });
 
-    const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",];
 
     return (<div className="container">
         <h1>
-            {month.at(new Date().getMonth())} {currentYear}
+            {monthNames.at(new Date().getMonth())} {currentYear}
         </h1>
-        <table className="table">
+        <table className="table table-dark">
             <thead>
             <tr>
                 <th>Mon</th>

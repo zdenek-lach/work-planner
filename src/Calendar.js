@@ -7,9 +7,14 @@ function Calendar() {
 
     const days = [];
 
-    const daysInMonth = new Date(2023, 3, 0).getDate();
-    const lastDayOfMonth = new Date(2023, 3, daysInMonth).getDate(); // add this line to get the last day of the month
-    const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getDay();
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const lastDayOfMonth = new Date(currentYear, currentMonth, daysInMonth).getDate();
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+
+
 
     for (let i = 1; i <= daysInMonth; i++) {
         days.push(<div className="col">
@@ -29,7 +34,7 @@ function Calendar() {
 
     const totalSlots = [...blanks, ...days];
 
-    const lastDay = new Date(2022, 3, daysInMonth).getDay();
+    const lastDay = new Date(2023, 3, lastDayOfMonth).getDay();
     const remainingSlots = 6 - lastDay;
 
     if (remainingSlots > 0) {
@@ -58,13 +63,9 @@ function Calendar() {
 
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",];
 
-    const currentMonth = month[new Date().getMonth()];
-    const currentDate = new Date().getDate();
-    const currentYear = new Date().getFullYear();
-
     return (<div className="container">
         <h1>
-            {currentMonth} {currentYear}
+            {month.at(new Date().getMonth())} {currentYear}
         </h1>
         <table className="table">
             <thead>
@@ -78,6 +79,7 @@ function Calendar() {
                 <th>Sun</th>
             </tr>
             </thead>
+
             <tbody>
             {rows.map((row, i) => {
                 return (<tr key={i}>

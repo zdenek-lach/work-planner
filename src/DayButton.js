@@ -1,15 +1,16 @@
 import React from "react";
 
-function DayButton(props) {
+function Button(props) {
+    const { color, text, onClick } = props;
     return (
-        <button
-            className={`btn btn-${props.color}`}
-            onClick={props.onClick}
-            style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}
-        >
-            {props.text}
-        </button>
+        <div className="col">
+            <div className="row" style={{ height: "2.5rem" }}>
+                <button className={`btn btn-${color}`} onClick={onClick}>
+                    {text}
+                </button>
+            </div>
+        </div>
     );
 }
 
-export default DayButton;
+export default Button;

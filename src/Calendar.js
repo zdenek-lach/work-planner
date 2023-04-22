@@ -16,6 +16,7 @@ function Calendar() {
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const lastDayOfMonth = new Date(currentYear, currentMonth, daysInMonth).getDate();
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    //TODO state for HO or not
 
 
     for (let i = 1; i <= daysInMonth; i++) {
@@ -25,7 +26,7 @@ function Calendar() {
                     <DayButton
                         color="secondary"
                         text={i}
-                        onClick={() => console.log(`Clicked on day ${i}`)}
+                        onClick={() => console.log(`Cylicked on day ${i}`)}
                     />
                 </div>
             </div>

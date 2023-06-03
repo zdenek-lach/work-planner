@@ -3,21 +3,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import DayButton from "./DayButton";
 
-const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",];
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function Calendar() {
-
-
     const days = [];
 
     const currentDate = new Date();
+    const currentDay = currentDate.getDay();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth();
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const lastDayOfMonth = new Date(currentYear, currentMonth, daysInMonth).getDate();
-    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    //TODO state for HO or not
 
+    const firstDay = (new Date(currentYear, currentMonth, 1).getDay() + 6) % 7;
+
+
+
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
     for (let i = 1; i <= daysInMonth; i++) {
         days.push(
@@ -26,7 +26,7 @@ function Calendar() {
                     <DayButton
                         color="secondary"
                         text={i}
-                        onClick={() => console.log(`Cylicked on day ${i}`)}
+                        onClick={() => console.log(`Clicked on day ${i}`)}
                     />
                 </div>
             </div>
@@ -36,21 +36,25 @@ function Calendar() {
     const blanks = [];
 
     for (let i = 0; i < firstDay; i++) {
-        blanks.push(<div className="col" key={`blank-${i}`}>
-            <div className="row"></div>
-        </div>);
+        blanks.push(
+            <div className="col" key={`blank-${i}`}>
+                <div className="row"></div>
+            </div>
+        );
     }
 
     const totalSlots = [...blanks, ...days];
 
-    const lastDay = new Date(2023, 3, lastDayOfMonth).getDay();
+    const lastDay = new Date(currentYear, currentMonth, daysInMonth).getDay();
     const remainingSlots = 6 - lastDay;
 
     if (remainingSlots > 0) {
         for (let i = 0; i < remainingSlots; i++) {
-            totalSlots.push(<div className="col" key={`blank-${i + firstDay}`}>
-                <div className="row"></div>
-            </div>);
+            totalSlots.push(
+                <div className="col" key={`blank-${i + firstDay}`}>
+                    <div className="row"></div>
+                </div>
+            );
         }
     }
 
@@ -70,38 +74,39 @@ function Calendar() {
         }
     });
 
+    return (
+        <div className="container">
+            <h1>
+                {monthNames[currentMonth]} {currentYear}
+            </h1>
+            <table className="table table-dark">
+                <thead>
+                <tr>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                </tr>
+                </thead>
 
-    return (<div className="container">
-        <h1>
-            {monthNames.at(new Date().getMonth())} {currentYear}
-        </h1>
-        <table className="table table-dark">
-            <thead>
-            <tr>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
-                <th>Sun</th>
-            </tr>
-            </thead>
+                <tbody>
+                {rows.map((row, i) => {
+                    return (
+                        <tr key={i}>
+                            {row.map((day, j) => {
+                                return <td key={j}>{day}</td>;
+                            })}
+                        </tr>
+                    );
+                })}
+                </tbody>
 
-            <tbody>
-            {rows.map((row, i) => {
-                return (<tr key={i}>
-                    {row.map((day, j) => {
-                        return (<td key={j}>
-                            {day}
-                        </td>);
-                    })}
-                </tr>);
-            })}
-            </tbody>
-        </table>
-    </div>);
+            </table>
+        </div>
+    );
 }
-
 
 export default Calendar;

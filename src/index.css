@@ -29,3 +29,16 @@ code {
 .day-button {
   width: 25%;
 }
+
+.day-number {
+  margin-right: 5px; /* Adjust the spacing as desired */
+}
+
+.home-office-icon {
+  margin-left: 5px; /* Adjust the spacing as desired */
+}
+
+.current-day {
+  background-color: #004be3; /* Customize the background color for the current day */
+  color: #fff; /* Customize the text color for the current day */
+}

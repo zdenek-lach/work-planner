@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import { RiHome2Line } from "react-icons/ri";
 
-function Button(props) {
-    const { color, text, onClick } = props;
+function DayButton({ text, onClick }) {
+    const [isHomeOffice, setIsHomeOffice] = useState(false);
+
+    const handleDayClick = () => {
+        setIsHomeOffice(!isHomeOffice);
+    };
+
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+
+    const isCurrentDay = text === currentDay;
+
     return (
-        <div className="col">
-            <div className="row" style={{ height: "2.5rem" }}>
-                <button className={`btn btn-${color}`} onClick={onClick}>
-                    {text}
-                </button>
-            </div>
-        </div>
+        <button
+            className={`btn ${isCurrentDay ? "btn-primary" : "btn-secondary"}`}
+            onClick={() => {
+                onClick();
+                handleDayClick();
+            }}
+        >
+      <span className={`day-number ${isHomeOffice ? "home-office" : ""}`}>
+        {text}
+      </span>
+            {isHomeOffice && <RiHome2Line className="home-office-icon" />}
+        </button>
     );
 }
 
-export default Button;
+export default DayButton;

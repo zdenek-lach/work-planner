@@ -11,8 +11,12 @@ function DayButton({ day, color, isHomeOffice, note, onClick }) {
     const handleDayClick = (event) => {
         if (event.shiftKey) {
             setLocalIsHomeOffice(!localIsHomeOffice);
+            onClick(day, localIsHomeOffice, localNote, true);
+        } else {
+            onClick(day, localIsHomeOffice, localNote, false);
         }
     };
+
 
     const handleRightClick = (event) => {
         event.preventDefault();

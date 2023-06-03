@@ -8,11 +8,11 @@ const monthNames = ["January", "February", "March", "April", "May", "June", "Jul
 function Calendar() {
     const [calendarData, setCalendarData] = useState([]);
 
-    const handleDayClick = (day, isHomeOffice, note) => {
+    const handleDayClick = (day, isHomeOffice, note, isShiftClick) => {
         const updatedCalendarData = [...calendarData];
         const dayData = {
             day,
-            isHomeOffice,
+            isHomeOffice: isShiftClick ? !isHomeOffice : isHomeOffice,
             note,
         };
         const index = updatedCalendarData.findIndex((data) => data.day === day);
@@ -23,6 +23,7 @@ function Calendar() {
         }
         setCalendarData(updatedCalendarData);
     };
+
 
     const days = [];
 

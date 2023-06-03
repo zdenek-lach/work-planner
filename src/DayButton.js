@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { RiHome2Line } from "react-icons/ri";
 import { Button, Form, Modal } from "react-bootstrap";
 
-function DayButton({ text, onClick }) {
-    const [isHomeOffice, setIsHomeOffice] = useState(false);
+function DayButton({ day, color, isHomeOffice, note, onClick }) {
     const [showModal, setShowModal] = useState(false);
-    const [note, setNote] = useState("");
     const [isModalSaved, setIsModalSaved] = useState(false);
+    const [localIsHomeOffice, setLocalIsHomeOffice] = useState(isHomeOffice);
+    const [localNote, setLocalNote] = useState(note);
 
     const handleDayClick = (event) => {
         if (event.shiftKey) {
-            setIsHomeOffice(!isHomeOffice);
+            setLocalIsHomeOffice(!localIsHomeOffice);
         }
     };
 
@@ -21,7 +21,7 @@ function DayButton({ text, onClick }) {
 
     const handleModalClose = () => {
         if (!isModalSaved) {
-            setIsHomeOffice(false);
+            setLocalIsHomeOffice(isHomeOffice);
         }
         setShowModal(false);
     };
@@ -29,28 +29,26 @@ function DayButton({ text, onClick }) {
     const handleSaveNote = () => {
         setIsModalSaved(true);
         setShowModal(false);
-        // Save the note and home office option in your data structure or database
-        console.log("Note saved:", note);
-        console.log("Home office option:", isHomeOffice);
+        onClick(localIsHomeOffice, localNote);
     };
 
     const currentDate = new Date();
     const currentDay = currentDate.getDate();
-    const isCurrentDay = text === currentDay;
+    const isCurrentDay = day === currentDay;
 
     return (
         <button
-            className={`btn ${isCurrentDay ? "btn-primary" : "btn-secondary"}`}
+            className={`btn ${isCurrentDay ? "btn-primary" : `btn-${color}`}`}
             onClick={(event) => {
-                onClick();
+                onClick(localIsHomeOffice, localNote);
                 handleDayClick(event);
             }}
             onContextMenu={handleRightClick}
         >
-      <span className={`day-number ${isHomeOffice ? "home-office" : ""}`}>
-        {text}
+      <span className={`day-number ${localIsHomeOffice ? "home-office" : ""}`}>
+        {day}
       </span>
-            {isHomeOffice && <RiHome2Line className="home-office-icon" />}
+            {localIsHomeOffice && <RiHome2Line className="home-office-icon" />}
 
             <Modal show={showModal} onHide={handleModalClose}>
                 <Modal.Header closeButton>
@@ -62,8 +60,8 @@ function DayButton({ text, onClick }) {
                             <Form.Check
                                 type="checkbox"
                                 label="Home Office"
-                                checked={isHomeOffice}
-                                onChange={() => setIsHomeOffice(!isHomeOffice)}
+                                checked={localIsHomeOffice}
+                                onChange={() => setLocalIsHomeOffice(!localIsHomeOffice)}
                             />
                         </Form.Group>
                         <Form.Group controlId="formNote">
@@ -71,8 +69,8 @@ function DayButton({ text, onClick }) {
                             <Form.Control
                                 as="textarea"
                                 rows={3}
-                                value={note}
-                                onChange={(e) => setNote(e.target.value)}
+                                value={localNote}
+                                onChange={(e) => setLocalNote(e.target.value)}
                             />
                         </Form.Group>
                     </Form>
@@ -82,7 +80,7 @@ function DayButton({ text, onClick }) {
                         Close
                     </Button>
                     <Button variant="primary" onClick={handleSaveNote}>
-                        Save Note
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>

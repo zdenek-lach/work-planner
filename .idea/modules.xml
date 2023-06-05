@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/work-planner.iml" filepath="$PROJECT_DIR$/.idea/work-planner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../work-planner-desktop/.idea/work-planner-desktop.iml" filepath="$PROJECT_DIR$/../work-planner-desktop/.idea/work-planner-desktop.iml" />
     </modules>
   </component>
 </project>

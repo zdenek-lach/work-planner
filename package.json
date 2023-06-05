@@ -1,6 +1,13 @@
 {
   "name": "work-planner",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "A React application to keep me organized when reporting my past month.",
+  "keywords": [
+    "ReactJS",
+    "ReportingTool"
+  ],
+  "author": "Zdeněk Lach",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

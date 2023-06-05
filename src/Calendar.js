@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import DayButton from "./DayButton";
@@ -20,6 +20,7 @@ const monthNames = [
 
 function Calendar() {
     const [calendarData, setCalendarData] = useState([]);
+    const [dataKey, setDataKey] = useState(Date.now());
 
     const handleDayClick = (day, isHomeOffice, note, isShiftClick) => {
         const updatedCalendarData = [...calendarData];
@@ -53,6 +54,7 @@ function Calendar() {
             <div className="col w-75" key={i}>
                 <div className="row">
                     <DayButton
+                        key={`${dataKey}-${i}`} // Added key prop to force re-render
                         day={i}
                         color="secondary"
                         isHomeOffice={dayData ? dayData.isHomeOffice : false}
@@ -109,18 +111,36 @@ function Calendar() {
 
     const exportAppState = () => {
         const jsonData = JSON.stringify(calendarData);
+        localStorage.setItem("calendarState", jsonData);
         console.log(jsonData);
-        // Send jsonData to backend server or save in local storage
+        // You can also send jsonData to a backend server if needed
     };
+
+    const loadAppState = () => {
+        const storedData = localStorage.getItem("calendarState");
+        if (storedData) {
+            const parsedData = JSON.parse(storedData);
+            setCalendarData(parsedData);
+            setDataKey(Date.now()); // Update dataKey to force re-render of DayButton components
+            console.log(parsedData); // Log the loaded data
+        }
+    };
+
+    useEffect(() => {
+        const storedData = localStorage.getItem("calendarState");
+        if (storedData) {
+            const parsedData = JSON.parse(storedData);
+            setCalendarData(parsedData);
+            setDataKey(Date.now()); // Update dataKey to force re-render of DayButton components
+        }
+    }, []);
 
     return (
         <div className="container">
             <h1>
                 {monthNames[currentMonth]} {currentYear}
             </h1>
-            <button className="btn btn-primary mb-4" onClick={exportAppState}>
-                Export App State
-            </button>
+
             <table className="table table-dark">
                 <thead>
                 <tr>
@@ -145,6 +165,12 @@ function Calendar() {
                 })}
                 </tbody>
             </table>
+            <button className="btn btn-danger mb-4" onClick={exportAppState}>
+                Save
+            </button>
+            <button className="btn btn-primary mb-4 ml-2" onClick={loadAppState} hidden={true}>
+                Load
+            </button>
         </div>
     );
 }

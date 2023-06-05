@@ -11,12 +11,11 @@ function DayButton({ day, color, isHomeOffice, note, onClick }) {
     const handleDayClick = (event) => {
         if (event.shiftKey) {
             setLocalIsHomeOffice(!localIsHomeOffice);
-            onClick(day, localIsHomeOffice, localNote, true);
+            onClick(localIsHomeOffice, localNote, true);
         } else {
-            onClick(day, localIsHomeOffice, localNote, false);
+            onClick(localIsHomeOffice, localNote, false);
         }
     };
-
 
     const handleRightClick = (event) => {
         event.preventDefault();
@@ -33,7 +32,7 @@ function DayButton({ day, color, isHomeOffice, note, onClick }) {
     const handleSaveNote = () => {
         setIsModalSaved(true);
         setShowModal(false);
-        onClick(localIsHomeOffice, localNote);
+        onClick(localIsHomeOffice, localNote, false);
     };
 
     const currentDate = new Date();
@@ -44,7 +43,6 @@ function DayButton({ day, color, isHomeOffice, note, onClick }) {
         <button
             className={`btn ${isCurrentDay ? "btn-primary" : `btn-${color}`}`}
             onClick={(event) => {
-                onClick(localIsHomeOffice, localNote);
                 handleDayClick(event);
             }}
             onContextMenu={handleRightClick}

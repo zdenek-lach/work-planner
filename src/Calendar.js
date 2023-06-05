@@ -3,7 +3,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import DayButton from "./DayButton";
 
-const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+];
 
 function Calendar() {
     const [calendarData, setCalendarData] = useState([]);
@@ -13,7 +26,7 @@ function Calendar() {
         const dayData = {
             day,
             isHomeOffice: isShiftClick ? !isHomeOffice : isHomeOffice,
-            note,
+            note
         };
         const index = updatedCalendarData.findIndex((data) => data.day === day);
         if (index !== -1) {
@@ -24,11 +37,9 @@ function Calendar() {
         setCalendarData(updatedCalendarData);
     };
 
-
     const days = [];
 
     const currentDate = new Date();
-    const currentDay = currentDate.getDay();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth();
 
@@ -46,7 +57,9 @@ function Calendar() {
                         color="secondary"
                         isHomeOffice={dayData ? dayData.isHomeOffice : false}
                         note={dayData ? dayData.note : ""}
-                        onClick={(isHomeOffice, note) => handleDayClick(i, isHomeOffice, note)}
+                        onClick={(isHomeOffice, note, isShiftClick) =>
+                            handleDayClick(i, isHomeOffice, note, isShiftClick)
+                        }
                     />
                 </div>
             </div>
@@ -100,40 +113,40 @@ function Calendar() {
         // Send jsonData to backend server or save in local storage
     };
 
-return (
-    <div className="container">
-        <h1>
-            {monthNames[currentMonth]} {currentYear}
-        </h1>
-        <button className="btn btn-primary mb-4" onClick={exportAppState}>
-            Export App State
-        </button>
-        <table className="table table-dark">
-            <thead>
-            <tr>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
-                <th>Sun</th>
-            </tr>
-            </thead>
-            <tbody>
-            {rows.map((row, i) => {
-                return (
-                    <tr key={i}>
-                        {row.map((day, j) => {
-                            return <td key={j}>{day}</td>;
-                        })}
-                    </tr>
-                );
-            })}
-            </tbody>
-        </table>
-    </div>
-);
+    return (
+        <div className="container">
+            <h1>
+                {monthNames[currentMonth]} {currentYear}
+            </h1>
+            <button className="btn btn-primary mb-4" onClick={exportAppState}>
+                Export App State
+            </button>
+            <table className="table table-dark">
+                <thead>
+                <tr>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                </tr>
+                </thead>
+                <tbody>
+                {rows.map((row, i) => {
+                    return (
+                        <tr key={i}>
+                            {row.map((day, j) => {
+                                return <td key={j}>{day}</td>;
+                            })}
+                        </tr>
+                    );
+                })}
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
 export default Calendar;

@@ -37,12 +37,12 @@ If you prefer to use the Work Planner Application as a standalone desktop app, y
 
 - For Windows:
 
-nativefier --name "Work Planner for Windows" --platform windows --arch x64 http://localhost:3000/
+`nativefier --name "Work Planner for Windows" --platform windows --arch x64 http://localhost:3000/`
 
 
 - For macOS:
 
-nativefier --name "Work Planner for Mac" --platform darwin --arch arm64 http://localhost:3000/
+`nativefier --name "Work Planner for Mac" --platform darwin --arch arm64 http://localhost:3000/`
 
 
 The above commands will create a standalone desktop app for your respective platform with the specified name.
